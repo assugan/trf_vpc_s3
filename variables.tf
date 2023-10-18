@@ -26,12 +26,12 @@ variable "private_instance_count" {
   default = 2
 }
 
-
+/*
 # availability zones
 variable "availabilityZone" {
   default = ["eu-central-1a", "eu-central-1b"]
 }
-
+*/
 
 # cidr vpc
 variable "vpcCIDRblock" {

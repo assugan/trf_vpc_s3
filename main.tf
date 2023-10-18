@@ -3,6 +3,8 @@ provider "aws" {
   region = var.region
 }
 
+data "aws_availability_zones" "available" {}
+
 # create VPC
 resource "aws_vpc" "My_VPC" {
   cidr_block = var.vpcCIDRblock
@@ -15,20 +17,22 @@ resource "aws_vpc" "My_VPC" {
 
 # create Subnets
 resource "aws_subnet" "My_VPC_Subnet_Public" {
-  #count             = var.subnet_count
+  count             = length(var.publicSubnetCIDR)
   vpc_id            = aws_vpc.My_VPC.id
-  cidr_block        = element(var.publicSubnetCIDR[*], count.index)
-  availability_zone = element(var.availabilityZone[*], count.index)
+  cidr_block        = element(var.publicSubnetCIDR, count.index)
+  #availability_zone = element(var.availabilityZone, count.index)
+  availability_zone = data.aws_availability_zones.available.names[count.index]
   tags = {
     Name = "My VPC Public Subnet ${count.index + 1}"
   }
 }
 
 resource "aws_subnet" "My_VPC_Subnet_Private" {
-  #count             = var.subnet_count
+  count             = length(var.privateSubnetCIDR)
   vpc_id            = aws_vpc.My_VPC.id
-  cidr_block        = element(var.privateSubnetCIDR[*], count.index)
-  availability_zone = element(var.availabilityZone[*], count.index)
+  cidr_block        = element(var.privateSubnetCIDR, count.index)
+  #availability_zone = element(var.availabilityZone, count.index)
+  availability_zone = data.aws_availability_zones.available.names[count.index]
   tags = {
     Name = "My VPC Private Subnet ${count.index + 1}"
   }
