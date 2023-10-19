@@ -1,6 +1,6 @@
 
 variable "region" {
-  default = "eu_central-1"
+  default = "eu-central-1"
 }
 
 # instances
@@ -17,11 +17,7 @@ variable "instance_type" {
   description = "t2.micro instances"
   default = "t2.micro"
 }
-variable "public_instance_count" {
-  type = number
-  default = 3
-}
-variable "private_instance_count" {
+variable "instances_count" {
   type = number
   default = 2
 }
@@ -34,19 +30,19 @@ variable "availabilityZone" {
 */
 
 # cidr vpc
-variable "vpcCIDRblock" {
+variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
 # subnets cidr
-variable "publicSubnetCIDR" {
-  type        = list(string)
+variable "public_subnet_cidrs" {
+  type        = string
   description = "Public Subnet CIDR values"
   default     = ["10.0.1.0/24", "10.0.2.0/24" ]
 }
 
-variable "privateSubnetCIDR" {
-  type        = list(string)
+variable "private_subnet_cidrs" {
+  type        = string
   description = "Private Subnet CIDR values"
   default     = ["10.0.3.0/24", "10.0.4.0/24"]
 }
@@ -58,11 +54,11 @@ variable "subnet_count" {
 }
 */
 
-variable "destinationCIDRblock" {
+variable "destination_cidr" {
   default = "0.0.0.0/0"
 }
 
-variable "ingressCIDRblockPub" {
+variable "ingress_cidr_pub" {
   default = "0.0.0.0/0"
 }
 
@@ -70,7 +66,7 @@ variable "ingressCIDRblockPub" {
 variable "bucket_name" {
   type = string
   description = "aws s3 bucket"
-  default = "assugan_vpc_bucket"
+  default = "assugan-vpc-bucket"
   
 }
 
