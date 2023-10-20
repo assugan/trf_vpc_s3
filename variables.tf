@@ -1,6 +1,13 @@
 
 variable "region" {
+  type = string
   default = "eu-central-1"
+}
+
+# cidr vpc
+variable "vpc_cidr" {
+  type = string
+  default = "10.0.0.0/16"
 }
 
 # instances
@@ -22,16 +29,15 @@ variable "instances_count" {
   default = 2
 }
 
-/*
-# availability zones
-variable "availabilityZone" {
-  default = ["eu-central-1a", "eu-central-1b"]
+# for security group
+variable "allow_ports" {
+  description = "open ports"
+  default = ["80","443","8080", "22"]
 }
-*/
 
-# cidr vpc
-variable "vpc_cidr" {
-  default = "10.0.0.0/16"
+# availability zones
+variable "availability_zone" {
+  default = ["eu-central-1a", "eu-central-1b"]
 }
 
 # subnets cidr
@@ -46,13 +52,6 @@ variable "private_subnet_cidrs" {
   description = "Private Subnet CIDR values"
   default     = ["10.0.3.0/24", "10.0.4.0/24"]
 }
-/*
-# subnet count
-variable "subnet_count" {
-  type = number
-  default = 2
-}
-*/
 
 variable "destination_cidr" {
   default = "0.0.0.0/0"
@@ -69,6 +68,17 @@ variable "bucket_name" {
   default = "assugan-vpc-bucket"
   
 }
+
+
+
+
+/*
+# subnet count
+variable "subnet_count" {
+  type = number
+  default = 2
+}
+*/
 
 
 

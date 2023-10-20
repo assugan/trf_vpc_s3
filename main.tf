@@ -1,9 +1,10 @@
+
 # create Provider
 provider "aws" {
   region = var.region
 }
 
-data "aws_availability_zones" "available" {}
+#data "aws_availability_zones" "available" {}
 
 # create VPC
 resource "aws_vpc" "main" {
@@ -20,8 +21,8 @@ resource "aws_subnet" "public_subnet" {
   count             = length(var.public_subnet_cidrs)
   vpc_id            = aws_vpc.main.id
   cidr_block        = element(var.public_subnet_cidrs, count.index)
-  #availability_zone = element(var.availabilityZone, count.index)
-  availability_zone = data.aws_availability_zones.available.names[count.index]
+  availability_zone = element(var.availability_zone, count.index)
+  #availability_zone = data.aws_availability_zones.available.names[count.index]
   tags = {
     Name = "public subnet ${count.index + 1}"
   }
