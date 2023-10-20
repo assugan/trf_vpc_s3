@@ -10,9 +10,7 @@ provider "aws" {
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
 
-  tags = {
-    Name = "main vpc"
-  }
+  tags = merge(var.common_tags, {Name = "main vpc"})
 }
 
 
@@ -23,6 +21,7 @@ resource "aws_subnet" "public_subnet" {
   cidr_block        = element(var.public_subnet_cidrs, count.index)
   availability_zone = element(var.availability_zone, count.index)
   #availability_zone = data.aws_availability_zones.available.names[count.index]
+
   tags = {
     Name = "public subnet ${count.index + 1}"
   }
@@ -34,6 +33,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block        = element(var.private_subnet_cidrs, count.index)
   #availability_zone = element(var.availabilityZone, count.index)
   availability_zone = data.aws_availability_zones.available.names[count.index]
+
   tags = {
     Name = "private subnet ${count.index + 1}"
   }
@@ -42,18 +42,16 @@ resource "aws_subnet" "private_subnet" {
 # create Internet Gateway
 resource "aws_internet_gateway" "vpc_gw" {
   vpc_id = aws_vpc.main.id
-  tags = {
-    Name = "internet gateway"
-  }
+
+  tags = merge(var.common_tags, {Name = "internet gateway"})
 }
 
 
 # create Route Table
 resource "aws_route_table" "vpc_route_table" {
   vpc_id = aws_vpc.main.id
-  tags = {
-    Name = "vpc route table"
-  }
+
+  tags = merge(var.common_tags, {Name = "route table"})
 }
 
 
@@ -76,10 +74,7 @@ resource "aws_route_table_association" "association" {
 resource "aws_s3_bucket" "assugan_vpc_bucket" {
   bucket = var.bucket_name
 
-  tags = {
-    Name        = "vpc bucket"
-    Environment = "VPC_EndPoint_test"
-  }
+  tags = merge(var.common_tags, {Name = "aws bucket"})
 }
 
 resource "aws_s3_bucket_acl" "assugan_vpc_bucket" {

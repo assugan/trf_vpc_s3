@@ -69,6 +69,17 @@ variable "bucket_name" {
   
 }
 
+variable "common_tags" {
+  description = "tags for all resources"
+  type = map
+  default = {
+    Owner = "DevOps"
+    Environment = "Development"
+
+  }
+}
+
+
 
 
 
